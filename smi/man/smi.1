@@ -1,0 +1,32 @@
+.TH SMI 1 2020-11-15 GNU Commands
+.SH NAME
+smi \- run instances of state machines
+.SH SYNOPSIS
+.B smi
+\fB\-d\fR \fIdefinition\fR
+[\fB\-i\fR \fIinput\fR]
+[\fB\-o\fR \fIoutput\fR]
+.SH DESCRIPTION
+.B smi
+runs a state machine described by a definition file \
+accepting line-by-line input from an input file and writing \
+the output in an output file. 
+.SH OPTIONS
+.TP
+.BR \-d ", " \-\-definition =\fIdefinition-file\fR
+Sets the file containing the definition of the state machine.
+.TP
+.BR \-i ", " \-\-input =\fIinput-file\fR
+Sets the file from which to read the events. Defaults to stdin.
+.TP
+.BR \-o ", " \-\-output =\fIoutput-file\fR
+Sets the file to which to write the actions. Defaults to stdout.
+.SH AUTHOR
+Written by Giovanni Vergine.
+.SH BUGS
+Report any bug to Giovanni Vergine <verginegiovanni@gmail.com>.
+
+
+
+
+
