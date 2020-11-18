@@ -10,14 +10,21 @@ extern void yylex_destroy();
 state_machine_t * sm;
 
 
-void print_actions(list_t * l, FILE* out) {
+void print_actions(list_t * l, FILE* out, char* context) {
+    int lines = 0;
     list_element_t * iterator = 0;
     while((iterator = list_find_next_element(l,iterator)) != 0)
     {
         char* action = (char*)list_get_data(iterator);
-        fprintf(out,"%s\n",action);
+        fprintf(out,"%s %s\n",action,context);
+        lines++;
     }
     list_delete(l);
+    
+    if(lines == 0) // event produced no action
+    {
+        fprintf(out,"- %s\n",context);
+    }
 }
 
 int main(int argc, char* argv[])
@@ -55,15 +62,20 @@ int main(int argc, char* argv[])
     yylex_destroy();
     fclose(definition_file);
     
-    print_actions(state_machine_reset(sm), output_file);
+    print_actions(state_machine_reset(sm), output_file, 0);
     
     char * line = NULL;
     size_t len = 0;
     ssize_t read;
     
     while ((read = getline(&line, &len, input_file)) != -1) {
-            line[read-1] = '\0';
-            print_actions(state_machine_dispatch_event(sm,line), output_file);
+            line[read-1] = 0;
+            char *context = strdup(line);
+            char *firstBlank = line;
+            while (*firstBlank != 0 && *(firstBlank++) != ' ') {}
+            *(firstBlank-1) = 0;
+            print_actions(state_machine_dispatch_event(sm,line), output_file, context);
+            free(context);
     }
     
     if (line) free(line);
