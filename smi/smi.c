@@ -16,6 +16,7 @@ void print_actions(list_t * l, FILE* out) {
     {
         char* action = (char*)list_get_data(iterator);
         fprintf(out,"%s\n",action);
+        fflush(out);
     }
     list_delete(l);
 }
