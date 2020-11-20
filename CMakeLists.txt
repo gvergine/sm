@@ -9,7 +9,12 @@ project(
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 enable_testing()
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+include(CodeCoverage)
+append_coverage_compiler_flags()
+endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
+                              
 add_subdirectory(lib)
 add_subdirectory(smi)
 

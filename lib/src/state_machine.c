@@ -4,24 +4,6 @@
 #include "items.h"
 #include "hashset.h"
 
-
-/*
-
-ADD STATE ON  add_state
-ADD STATE OFF
-
-SET TRANSITION FROM STATE OFF TO STATE ON WHEN START set_transition(state_from, state_to, event_name);
-SET TRANSITION FROM STATE ON TO STATE OFF WHEN STOP
-
-ADD ACTION aaaa LEAVING STATE ON add_exit_action(action_name, state_name)
-ADD ACTION bbbb ENTERING STATE ON add_enter_action(action_name, state_name)
-ADD ACTION cccc LEAVING STATE OFF
-ADD ACTION dddd ENTERING STATE OFF
-
-ADD ACTION xxx TO STATE ON WHEN START add_internal_action(action_name, state_name, event_name)
-
-
-*/
 struct state_machine
 {
     hashset_t* states; // set of state_t
