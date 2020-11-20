@@ -15,7 +15,7 @@ add_flex_bison_dependency(scanner parser)
 
 add_executable(smi ${c_sources} ${GGO_C} ${BISON_parser_OUTPUTS} ${FLEX_scanner_OUTPUTS})
 target_include_directories(smi PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(smi sm-static)
+target_link_libraries(smi sm-shared)
 
 target_compile_options(smi PRIVATE -Werror -Wall -pedantic)
 
