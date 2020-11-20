@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: installdependencies
+    - name: install dependencies
       run: sudo apt-get install gengetopt check subunit lcov --no-install-recommends
 
     - name: Create Build Environment
@@ -37,6 +37,6 @@ jobs:
     - name: Build with Test and Coverage libsm
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config=$BUILD_TYPE --target sm_coverage
+      run: cmake --build . --config $BUILD_TYPE --target sm_coverage
 
 
