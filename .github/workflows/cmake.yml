@@ -37,6 +37,19 @@ jobs:
     - name: Build with Test and Coverage libsm
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE --target sm_coverage
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Tests
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: make tests
+
+    - name: Code Coverage
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: make sm_coverage smi_coverage
+
+ 
+
 
 
