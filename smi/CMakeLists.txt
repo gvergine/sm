@@ -23,3 +23,8 @@ install(TARGETS smi
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+find_program (BASH_PROGRAM bash)
+add_test(functional-tests ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/tests/run.sh  ${CMAKE_CURRENT_BINARY_DIR})
+endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
+
