@@ -1,4 +1,4 @@
 # sm - state machine library and utilities
 
-## In a glance
+![Build](https://github.com/gvergine/sm/workflows/Build/badge.svg)
 
