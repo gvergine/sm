@@ -21,7 +21,7 @@ void print_actions(list_t * l, FILE* out) {
     list_delete(l);
 }
 
-int main(int argc, char* argv[])
+int smi(int argc, char* argv[])
 {
     struct gengetopt_args_info args_info;
     if (cmdline_parser (argc, argv, &args_info) != 0) return 1;
