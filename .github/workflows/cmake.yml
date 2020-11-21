@@ -42,7 +42,7 @@ jobs:
     - name: Tests
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: make tests
+      run: make test
 
     - name: Code Coverage
       working-directory: ${{runner.workspace}}/build
