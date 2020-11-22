@@ -49,7 +49,25 @@ jobs:
       shell: bash
       run: make sm_coverage smi_coverage
 
- 
+    - name: Coveralls Parallel SM
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        path-to-lcov: ${{runner.workspace}}/build/sm_coverage.info
+        parallel: true
+
+    - name: Coveralls Parallel SMI
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        path-to-lcov: ${{runner.workspace}}/build/smi_coverage.info
+        parallel: true
+
+    - name: Coveralls Parallel Done
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
 
 
 
