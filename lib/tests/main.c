@@ -12,6 +12,7 @@ int main(void)
     SRunner *sr;
 
     sr = srunner_create(0);
+    srunner_set_fork_status(sr,CK_NOFORK);
     
     /* add here all the suites */
     srunner_add_suite(sr,list_test_suite());
