@@ -39,10 +39,10 @@ jobs:
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
 
-    - name: Tests
+    - name: Tests with memcheck included
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: make test
+      run: ctest -T memcheck
 
     - name: Code Coverage
       working-directory: ${{runner.workspace}}/build
