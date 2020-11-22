@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include <sm/state_machine.h>
 #include "items.h"
 #include "hashset.h"
@@ -9,6 +10,7 @@ struct state_machine
     hashset_t* states; // set of state_t
     state_t * initial_state;
     state_t * current_state;
+    pthread_mutex_t lock;
 };
 
 state_machine_t * state_machine_new(del_func delete)
@@ -16,13 +18,15 @@ state_machine_t * state_machine_new(del_func delete)
     state_machine_t * sm = malloc(sizeof(state_machine_t));
     sm->states = hashset_new(cmp_states, hash_state, del_state, 256);
     sm->initial_state = 0;
-    sm->current_state = 0;    
+    sm->current_state = 0;
+    pthread_mutex_init(&sm->lock, 0);   
     return sm;
 }
 
 void state_machine_delete(state_machine_t * sm)
 {
     hashset_delete(sm->states);
+    pthread_mutex_destroy(&sm->lock);
     free(sm);
 }
 
@@ -140,17 +144,27 @@ list_t * set_to_list(hashset_t * set)
 
 list_t * state_machine_reset(state_machine_t * sm)
 {
+    pthread_mutex_lock(&sm->lock);
     sm->current_state = sm->initial_state;
-    return set_to_list(sm->current_state->enter_actions);
+    list_t * ret = set_to_list(sm->current_state->enter_actions);
+    pthread_mutex_unlock(&sm->lock);
+    return ret;
+
 }
 
 list_t * state_machine_dispatch_event(state_machine_t * sm, const char* event_name)
 {
+    pthread_mutex_lock(&sm->lock);
+    
     list_t * l = list_new(0);
     
     // first check if the event is at all handled in current state
     event_t* event = find_event_with_name(sm->current_state, event_name);
-    if (event == 0) return l; // the event is ignored
+    if (event == 0) 
+    {
+        pthread_mutex_unlock(&sm->lock);
+        return l; // the event is ignored
+    }
 
     // then check if there is some internal action upon event on current state    
     list_t * internal_actions = set_to_list(event->internal_actions);
@@ -191,7 +205,8 @@ list_t * state_machine_dispatch_event(state_machine_t * sm, const char* event_na
     
     
 
-
+    pthread_mutex_unlock(&sm->lock);
+        
     return l;
 }
 

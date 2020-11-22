@@ -1,3 +1,5 @@
+find_package(Threads REQUIRED)
+
 file(GLOB sources *.c)
 
 add_library(sm-shared SHARED ${sources})
@@ -6,6 +8,7 @@ add_library(sm-static STATIC ${sources})
 set_target_properties(sm-shared PROPERTIES OUTPUT_NAME sm)
 set_target_properties(sm-static PROPERTIES OUTPUT_NAME sm)
 
+target_link_libraries(sm-shared PRIVATE Threads::Threads)
 
 target_include_directories(sm-shared
     PUBLIC
