@@ -54,6 +54,7 @@ jobs:
       with:
         github-token: ${{ secrets.github_token }}
         path-to-lcov: ${{runner.workspace}}/build/sm_coverage.info
+        flag-name: sm-coverage
         parallel: true
 
     - name: Coveralls Parallel SMI
@@ -61,6 +62,7 @@ jobs:
       with:
         github-token: ${{ secrets.github_token }}
         path-to-lcov: ${{runner.workspace}}/build/smi_coverage.info
+        flag-name: smi-coverage
         parallel: true
 
     - name: Coveralls Parallel Done
