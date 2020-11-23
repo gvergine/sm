@@ -52,7 +52,7 @@ void hashset_delete(hashset_t* set)
     free(set);
 }
 
-hashset_element_t* append_node(hashset_element_t* n, void* data) 
+/*hashset_element_t* append_node(hashset_element_t* n, void* data) 
 {
     hashset_element_t* node = malloc(sizeof(hashset_element_t));
     node->data = data;
@@ -60,7 +60,7 @@ hashset_element_t* append_node(hashset_element_t* n, void* data)
     node->hash = n->hash;
     n->next = node;
     return node;
-}
+}*/
 
 int is_duplicate(hashset_t* set, const void* data)
 {

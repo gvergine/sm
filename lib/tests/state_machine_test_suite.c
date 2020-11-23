@@ -121,15 +121,16 @@ START_TEST(dispatch_event)
     list_t* actions;
 
     state_machine_t * sm = state_machine_new(0);
-    state_machine_add_state(sm,"STATE_A");
-    state_machine_add_state(sm,"STATE_B");
-    state_machine_set_initial_state(sm,"STATE_A");
-    state_machine_add_exit_action(sm,"STATE_A","1");
-    state_machine_add_enter_action(sm,"STATE_B","2");
-    state_machine_add_internal_action(sm,"STATE_B","INT","3");
-    state_machine_add_exit_action(sm,"STATE_B","4");
-    state_machine_set_transition(sm,"STATE_A","STATE_B","TRANS");
-    state_machine_set_transition(sm,"STATE_B","STATE_A","TRANS");
+    state_machine_add_state(sm,"STATE_AC");
+    state_machine_add_state(sm,"STATE_BB");
+    state_machine_set_initial_state(sm,"STATE_AC");
+    state_machine_add_exit_action(sm,"STATE_AC","1");
+    state_machine_add_exit_action(sm,"STATE_AC","1bis");
+    state_machine_add_enter_action(sm,"STATE_BB","2");
+    state_machine_add_internal_action(sm,"STATE_BB","INT","3");
+    state_machine_add_exit_action(sm,"STATE_BB","4");
+    state_machine_set_transition(sm,"STATE_AC","STATE_BB","TRANS");
+    state_machine_set_transition(sm,"STATE_BB","STATE_AC","TRANS");
     actions = state_machine_reset(sm);
     list_delete(actions);
         
@@ -139,6 +140,10 @@ START_TEST(dispatch_event)
     ck_assert_ptr_ne(iterator,0);
     action = (char*)list_get_data(iterator);
     ck_assert_str_eq(action,"1");
+    iterator = list_find_next_element(actions,iterator);
+    ck_assert_ptr_ne(iterator,0);
+    action = (char*)list_get_data(iterator);
+    ck_assert_str_eq(action,"1bis");
     iterator = list_find_next_element(actions,iterator);
     ck_assert_ptr_ne(iterator,0);
     action = (char*)list_get_data(iterator);
