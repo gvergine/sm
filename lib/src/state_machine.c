@@ -79,12 +79,12 @@ int state_machine_set_transition(state_machine_t * sm, const char* from_state_na
         event = malloc(sizeof(event_t));
         event->name = strdup(event_name);
         event->internal_actions = hashset_new(cmp_strings, hash_string, free, 256);
-        hashset_insert(from_state->events, event);
-    }
-    event->transition = to_state;
+        event->transition = to_state;
+        hashset_insert(from_state->events, event);  
+        return 1; 
+    }    
     
-    
-    return 1;   
+    return 0;   
 }
 
 int state_machine_add_enter_action(state_machine_t * sm, const char* state_name, const char* enter_action_name)
