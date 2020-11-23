@@ -51,7 +51,8 @@ START_TEST(set_transition_tests)
     ck_assert_int_eq(0,ret);
     ret = state_machine_set_transition(sm,"NON_EXISTING","TWO","EVENT");
     ck_assert_int_eq(0,ret);
-    ret = state_machine_set_transition(sm,"NON_EXISTING","NON_EXISTING","EVENT");
+    ret = state_machine_set_transition(sm,"NON_EXISTING","NON_EXISTING",
+                                       "EVENT");
     ck_assert_int_eq(0,ret);
     state_machine_delete(sm);
 }
@@ -82,7 +83,8 @@ START_TEST(add_actions)
     ck_assert_int_eq(1,ret);
     ret = state_machine_add_internal_action(sm,"STATE","NON_EXISTING","A");
     ck_assert_int_eq(1,ret);
-    ret = state_machine_add_internal_action(sm,"NON_EXISTING","NON_EXISTING_2","A");
+    ret = state_machine_add_internal_action(sm,"NON_EXISTING","NON_EXISTING_2",
+                                            "A");
     ck_assert_int_eq(0,ret);
     
     state_machine_delete(sm);

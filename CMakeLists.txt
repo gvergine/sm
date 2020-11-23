@@ -10,9 +10,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 find_program(MEMORYCHECK_COMMAND valgrind)
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} -s --trace-children=yes --leak-check=full")
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=255 --log-fd=2")
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --show-leak-kinds=all --errors-for-leak-kinds=all")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} -s 
+    --trace-children=yes --leak-check=full --error-exitcode=255 --log-fd=2
+    --show-leak-kinds=all --errors-for-leak-kinds=all")
 include (CTest)
 enable_testing()
 include(CodeCoverage)

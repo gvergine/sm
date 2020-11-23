@@ -46,12 +46,13 @@ int state_machine_validate(state_machine_t * sm, list_t ** issues_list)
         while((iterator = hashset_find_next_element(sm->states,iterator)) != 0)
         {
             state_t * s = (state_t*)hashset_get_data(iterator);
-            add_issue(*issues_list, SM_VAL_STATENOTREACHABLE, s->name);                   
+            add_issue(*issues_list, SM_VAL_STATENOTREACHABLE, s->name);
         }
     }
     else
     {
-        hashset_t * reachable_states = hashset_new(cmp_states, hash_state, 0, 256);
+        hashset_t * reachable_states = hashset_new(cmp_states, hash_state, 0,
+                                                   256);
         hashset_insert(reachable_states, sm->initial_state);
         
         find_reachable_states(reachable_states, sm->initial_state);
@@ -63,7 +64,7 @@ int state_machine_validate(state_machine_t * sm, list_t ** issues_list)
 
             if (!hashset_contains(reachable_states,s))
             {
-                add_issue(*issues_list, SM_VAL_STATENOTREACHABLE, s->name);                   
+                add_issue(*issues_list, SM_VAL_STATENOTREACHABLE, s->name);
             }            
         }        
         

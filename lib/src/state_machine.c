@@ -25,9 +25,12 @@ int state_machine_add_state(state_machine_t * sm, const char* state_name)
     new_state->name = strdup(state_name);
     if (hashset_insert(sm->states,new_state))
     {
-        new_state->enter_actions = hashset_new(cmp_strings, hash_string, free, 256);
-        new_state->exit_actions = hashset_new(cmp_strings, hash_string, free, 256);
-        new_state->events = hashset_new(cmp_events, hash_event, del_event, 256);
+        new_state->enter_actions = hashset_new(cmp_strings, hash_string, free,
+                                               256);
+        new_state->exit_actions = hashset_new(cmp_strings, hash_string, free,
+                                              256);
+        new_state->events = hashset_new(cmp_events, hash_event, del_event,
+                                        256);
         return 1;
     }
     else
@@ -53,7 +56,10 @@ event_t* find_event_with_name(state_t * state, const char* name)
 }
 
 
-int state_machine_set_transition(state_machine_t * sm, const char* from_state_name, const char* to_state_name, const char* event_name)
+int state_machine_set_transition(state_machine_t * sm,
+                                 const char* from_state_name,
+                                 const char* to_state_name,
+                                 const char* event_name)
 {
     // first of all, check if the two state exist    
     state_t * from_state = (state_t *)find_state_with_name(sm,from_state_name);
@@ -67,7 +73,8 @@ int state_machine_set_transition(state_machine_t * sm, const char* from_state_na
         // let's add it
         event = malloc(sizeof(event_t));
         event->name = strdup(event_name);
-        event->internal_actions = hashset_new(cmp_strings, hash_string, free, 256);
+        event->internal_actions = hashset_new(cmp_strings, hash_string, free,
+                                              256);
         event->transition = to_state;
         hashset_insert(from_state->events, event);  
         return 1; 
@@ -76,27 +83,34 @@ int state_machine_set_transition(state_machine_t * sm, const char* from_state_na
     return 0;   
 }
 
-int state_machine_add_enter_action(state_machine_t * sm, const char* state_name, const char* enter_action_name)
+int state_machine_add_enter_action(state_machine_t * sm, const char* state_name,
+                                   const char* enter_action_name)
 {
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
     char * action_name_copy = strdup(enter_action_name);
-    hashset_element_t * ret = hashset_insert(state->enter_actions, action_name_copy);
+    hashset_element_t * ret = hashset_insert(state->enter_actions,
+                                             action_name_copy);
     if (ret == 0) free(action_name_copy);
     return ret != 0;    
 }
 
-int state_machine_add_exit_action(state_machine_t * sm, const char* state_name, const char* exit_action_name)
+int state_machine_add_exit_action(state_machine_t * sm, const char* state_name,
+                                  const char* exit_action_name)
 {
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
     char * action_name_copy = strdup(exit_action_name);
-    hashset_element_t * ret = hashset_insert(state->exit_actions, action_name_copy);
+    hashset_element_t * ret = hashset_insert(state->exit_actions,
+                                             action_name_copy);
     if (ret == 0) free(action_name_copy);
     return ret != 0;    
 }
 
-int state_machine_add_internal_action(state_machine_t * sm, const char* state_name, const char* event_name, const char* action_name)
+int state_machine_add_internal_action(state_machine_t * sm,
+                                      const char* state_name,
+                                      const char* event_name,
+                                      const char* action_name)
 {
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
@@ -108,16 +122,17 @@ int state_machine_add_internal_action(state_machine_t * sm, const char* state_na
         // let's add it
         event = malloc(sizeof(event_t));
         event->name = strdup(event_name);
-        event->internal_actions = hashset_new(cmp_strings, hash_string, free, 256);
+        event->internal_actions = hashset_new(cmp_strings, hash_string, free,
+                                              256);
         hashset_insert(state->events, event);
         event->transition = 0;
     }
     
-    return hashset_insert(event->internal_actions, strdup(action_name)) != 0;    
-        
+    return hashset_insert(event->internal_actions, strdup(action_name)) != 0;
 }
 
-int state_machine_set_initial_state(state_machine_t * sm, const char* state_name)
+int state_machine_set_initial_state(state_machine_t * sm,
+                                    const char* state_name)
 {
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
@@ -147,7 +162,8 @@ list_t * state_machine_reset(state_machine_t * sm)
 
 }
 
-list_t * state_machine_dispatch_event(state_machine_t * sm, const char* event_name)
+list_t * state_machine_dispatch_event(state_machine_t * sm,
+                                      const char* event_name)
 {
     pthread_mutex_lock(&sm->lock);
     
@@ -161,7 +177,7 @@ list_t * state_machine_dispatch_event(state_machine_t * sm, const char* event_na
         return l; // the event is ignored
     }
 
-    // then check if there is some internal action upon event on current state    
+    // then check if there is some internal action upon event on current state
     list_t * internal_actions = set_to_list(event->internal_actions);
     list_append(l,internal_actions);
     list_delete(internal_actions);
@@ -189,7 +205,8 @@ list_t * state_machine_dispatch_event(state_machine_t * sm, const char* event_na
         event_t* event2 = find_event_with_name(sm->current_state, event_name);
         if (event != 0)
         {
-            list_t * new_state_internal_actions = set_to_list(event2->internal_actions);
+            list_t * new_state_internal_actions = \
+                             set_to_list(event2->internal_actions);
             list_append(l,new_state_internal_actions);
             list_delete(new_state_internal_actions);
         }

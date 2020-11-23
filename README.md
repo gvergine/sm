@@ -20,7 +20,8 @@ make
 
 ## Debug build
 
-The following instructions are useful only to who want to build a debug version of this project (and hopefully contribute to the project):
+The following instructions are useful only to who want to build a debug version
+of this project (and hopefully contribute to the project):
 
 1. Install build and test tools and clone the project:
 ```

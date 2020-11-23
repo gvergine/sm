@@ -32,7 +32,8 @@ int main(int argc, char* argv[])
 
     if (!definition_file)
     {
-        fprintf(stderr,"Unable to open definition file %s\n",args_info.definition_arg);
+        fprintf(stderr,"Unable to open definition file %s\n",
+                args_info.definition_arg);
         cmdline_parser_free(&args_info);
         return -1;
     }

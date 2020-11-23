@@ -17,7 +17,8 @@ struct hashset {
     size_t table_size;
 };
 
-hashset_t * hashset_new(cmp_func cmp, hash_func hash, del_func delete, size_t table_size)
+hashset_t * hashset_new(cmp_func cmp, hash_func hash, del_func delete,
+                        size_t table_size)
 {
     hashset_t * set = malloc(sizeof(hashset_t));
     set->cmp = cmp;
@@ -104,7 +105,8 @@ hashset_element_t * find_first_node(hashset_t* set)
     return ret;
 }
 
-hashset_element_t * hashset_find_next_element(hashset_t * set, hashset_element_t * cont)
+hashset_element_t * hashset_find_next_element(hashset_t * set,
+                                              hashset_element_t * cont)
 {
     if (cont == 0) return find_first_node(set);
     if (cont->next != 0) return cont->next;
