@@ -39,10 +39,14 @@ jobs:
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
 
-    - name: Tests with memcheck included
+    - name: Test sm library with memcheck included
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: env CTEST_OUTPUT_ON_FAILURE=1 ctest -R sm-unit-tests -T memcheck
+
+    - name: Test smi executable with memcheck included
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
       run: env CTEST_OUTPUT_ON_FAILURE=1 ctest -R smi-tests
 
     - name: Code Coverage
