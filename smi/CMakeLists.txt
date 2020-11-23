@@ -43,6 +43,7 @@ setup_target_for_coverage_lcov(NAME smi_coverage EXECUTABLE ${BASH_PROGRAM}
                               EXCLUDE "${PROJECT_BINARY_DIR}/smi/sm.y"
                               EXCLUDE "${PROJECT_BINARY_DIR}/smi/sm.l"
                               EXCLUDE "${PROJECT_SOURCE_DIR}/smi/tests/*"
-                                                            )
+                              LCOV_ARGS "--rc" "lcov_branch_coverage=1"
+                              GENHTML_ARGS "--branch-coverage")
 endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
