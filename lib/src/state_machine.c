@@ -1,6 +1,6 @@
 #include <string.h>
-
 #include "state_machine_priv.h"
+
 
 state_machine_t * state_machine_new(del_func delete)
 {
@@ -64,8 +64,9 @@ int state_machine_set_transition(state_machine_t * sm,
     // first of all, check if the two state exist    
     state_t * from_state = (state_t *)find_state_with_name(sm,from_state_name);
     state_t * to_state = (state_t *)find_state_with_name(sm,to_state_name);
-    if (from_state == 0 || to_state == 0) return 0;
-    
+    if (from_state == 0 || to_state == 0) {
+    return 0;
+    }
     // the two state exist, lets add the event
     event_t * event = find_event_with_name(from_state, event_name);
     if (event == 0)
@@ -73,14 +74,19 @@ int state_machine_set_transition(state_machine_t * sm,
         // let's add it
         event = malloc(sizeof(event_t));
         event->name = strdup(event_name);
+        event->transition = 0;
         event->internal_actions = hashset_new(cmp_strings, hash_string, free,
                                               256);
+    }
+        
+    if (event->transition == 0)
+    {
         event->transition = to_state;
         hashset_insert(from_state->events, event);  
-        return 1; 
-    }    
-    
-    return 0;   
+        return 1;
+    }
+
+    return 0;
 }
 
 int state_machine_add_enter_action(state_machine_t * sm, const char* state_name,

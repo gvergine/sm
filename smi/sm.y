@@ -64,7 +64,6 @@ initialstate:
 	    state_machine_set_initial_state(___sm,$3);
 	    free(___current_state);
 	    ___current_state=strdup($3);
-	    free($3);
 	    if (is_initial_set)
 	    {
 	        yyerror("Initial state was already set!");
@@ -80,7 +79,6 @@ normalstate:
 	    state_machine_add_state(___sm,$2);
 	    free(___current_state);
 	    ___current_state=strdup($2);
-	    free($2);
 	}
 	OPEN_BRAKET eventhandlerdefinitions CLOSE_BRAKET  
 	;
@@ -116,7 +114,6 @@ oneventdefinition:
 	    current_target = TARGET_EVENT;
 	    free(___current_event);
 	    ___current_event = strdup($2);
-	    free($2);
 	}
 	OPEN_BRAKET statements CLOSE_BRAKET
 	;
@@ -153,7 +150,6 @@ actionstatement:
 	                                          ___current_event,
 	                                          $2);
 	    }
-	    free($2);
 	}
 	;
 	
@@ -164,7 +160,6 @@ transitionstatement:
 	    transition->from = strdup(___current_state);
 	    transition->to = strdup($2);
 	    transition->event = strdup(___current_event);
-	    free($2);
 	    list_insert(___transitions,transition);
 	}
 	;

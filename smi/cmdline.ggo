@@ -15,4 +15,5 @@ option  "output" o "State machine output file"
 default="/dev/stdout"
 text "Output file for actions. Defaults to /dev/stdout;"
 
-
+option  "validate-only" w "Just validate the state machine"    optional 
+text "Just validate the state machine;"

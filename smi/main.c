@@ -7,11 +7,8 @@
 #include "cmdline.h"
 #include "parsing.h"
 
-
-
-
-
-void print_actions(list_t * l, FILE* out) {
+void print_actions(list_t * l, FILE* out)
+{
     list_element_t * iterator = 0;
     while((iterator = list_find_next_element(l,iterator)) != 0)
     {
@@ -20,6 +17,44 @@ void print_actions(list_t * l, FILE* out) {
         fflush(out);
     }
     list_delete(l);
+}
+
+int validate(FILE* definition_file)
+{
+    state_machine_t * sm = state_machine_new(0);
+
+    if(!parse(definition_file, sm))
+    {
+        state_machine_delete(sm);
+        fclose(definition_file);
+        return 0;
+    }
+    
+    fclose(definition_file);
+
+    list_t * issues_list;
+    state_machine_validate(sm, &issues_list);
+
+    int n_issues = list_count(issues_list);
+
+    list_element_t * iterator = 0;
+    while ((iterator = list_find_next_element(issues_list,iterator)) != 0)
+    {
+        sm_val_item_t* issue = (sm_val_item_t*)list_get_data(iterator);
+        switch (issue->issue)
+        {
+            case SM_VAL_STATENOTREACHABLE:
+            fprintf(stderr,"ERROR: State `%s` is not reachable.\n",issue->item);
+            break;
+            case SM_VAL_NOINITIALSTATE:
+            fprintf(stderr,"ERROR: No state is defined as initial.\n");
+            break;
+        }
+    }
+
+    list_delete(issues_list);
+    state_machine_delete(sm);
+    return n_issues == 0;    
 }
 
 int main(int argc, char* argv[])
@@ -36,6 +71,12 @@ int main(int argc, char* argv[])
                 args_info.definition_arg);
         cmdline_parser_free(&args_info);
         return -1;
+    }
+    
+    if (args_info.validate_only_given)
+    {
+        cmdline_parser_free(&args_info);
+        return validate(definition_file) == 0;
     }
     
     FILE *input_file = fopen(args_info.input_arg, "r");

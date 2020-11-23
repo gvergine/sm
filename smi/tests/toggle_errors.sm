@@ -1,0 +1,42 @@
+state disabled {
+    on entry {
+        action stop_timer
+    }
+
+    on toggle {
+        goto enabled_light_on
+    }
+
+    on exit {
+        action start_timer
+    }
+}
+
+state enabled_light_on {
+    on entry {
+        action turn_light_on
+    }
+
+    on toggle {
+        action turn_light_off
+        goto disabled
+    }
+
+    on timeout {
+        goto enabled_light_off
+    }
+}
+
+state enabled_light_off {
+    on entry {
+        action turn_light_off
+    }
+
+    on toggle {
+        goto disabled
+    }
+
+    on timeout {
+        goto enabled_light_on
+    }
+}

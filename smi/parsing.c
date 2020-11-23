@@ -27,16 +27,12 @@ void add_transitions(state_machine_t* sm)
     while((iterator = list_find_next_element(___transitions,iterator)) != 0)
     {
         transition_t * transition = (transition_t*)list_get_data(iterator);
+
         state_machine_set_transition(sm,transition->from, transition->to,
                                      transition->event);
     }
 
 }
-
-
-
-
-
 
 void cleanup_memory()
 {
