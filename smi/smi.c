@@ -27,26 +27,36 @@ int smi(int argc, char* argv[])
     if (cmdline_parser (argc, argv, &args_info) != 0) return 1;
     
     FILE *definition_file = fopen(args_info.definition_arg, "r");
-    FILE *input_file = fopen(args_info.input_arg, "r");
-    FILE *output_file = fopen(args_info.output_arg, "w");
     
-    cmdline_parser_free(&args_info);
 
     if (!definition_file)
     {
         fprintf(stderr,"Unable to open definition file %s\n",args_info.definition_arg);
+        cmdline_parser_free(&args_info);
         return -1;
     }
+    
+    FILE *input_file = fopen(args_info.input_arg, "r");
     if (!input_file)
     {
         fprintf(stderr,"Unable to open input file %s\n",args_info.input_arg);
+        cmdline_parser_free(&args_info);
+        fclose(definition_file);
         return -1;
     }
+    
+    FILE *output_file = fopen(args_info.output_arg, "w");
     if (!output_file)
     {
         fprintf(stderr,"Unable to open output file %s\n",args_info.output_arg);
+        cmdline_parser_free(&args_info);
+        fclose(definition_file);
+        fclose(input_file);
         return -1;
     }
+    
+    cmdline_parser_free(&args_info);
+
     
     yyin = definition_file;
 
