@@ -11,8 +11,8 @@ bison_target(parser sm.y ${CMAKE_CURRENT_BINARY_DIR}/sm.tab.c)
 flex_target(scanner sm.l  ${CMAKE_CURRENT_BINARY_DIR}/sm_lexer.c)
 add_flex_bison_dependency(scanner parser)
 
-add_executable(smi ${c_sources} ${GGO_C} ${BISON_parser_OUTPUTS} ${FLEX_scanner_OUTPUTS})
-target_include_directories(smi PUBLIC ${PROJECT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR})
+add_executable(smi ${GGO_C} ${BISON_parser_OUTPUTS} ${FLEX_scanner_OUTPUTS} ${c_sources})
+target_include_directories(smi PUBLIC ${PROJECT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(smi sm-shared)
 target_compile_options(smi PRIVATE -Werror -Wall -pedantic)
 

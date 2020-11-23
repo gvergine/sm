@@ -1,11 +1,13 @@
 package "smi"
-version "1.0"
+version "1.0.0"
 
 option  "definition" d "State machine definition file" string required typestr="filename"
 text "State machine definition."
+
 option  "input" i "State machine input file" string optional typestr="filename"
 default="/dev/stdin"
 text "Input file for events. Defaults to /dev/stdin;"
+
 option  "output" o "State machine output file" string optional typestr="filename"
 default="/dev/stdout"
 text "Output file for actions. Defaults to /dev/stdout;"
