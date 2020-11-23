@@ -130,8 +130,9 @@ START_TEST(dispatch_event)
     state_machine_add_exit_action(sm,"STATE_B","4");
     state_machine_set_transition(sm,"STATE_A","STATE_B","TRANS");
     state_machine_set_transition(sm,"STATE_B","STATE_A","TRANS");
-    state_machine_reset(sm);
-    
+    actions = state_machine_reset(sm);
+    list_delete(actions);
+        
     actions = state_machine_dispatch_event(sm,"TRANS");
     iterator = 0;
     iterator = list_find_next_element(actions,iterator);

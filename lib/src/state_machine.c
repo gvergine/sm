@@ -91,14 +91,20 @@ int state_machine_add_enter_action(state_machine_t * sm, const char* state_name,
 {
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
-    return hashset_insert(state->enter_actions, strdup(enter_action_name)) != 0;    
+    char * action_name_copy = strdup(enter_action_name);
+    hashset_element_t * ret = hashset_insert(state->enter_actions, action_name_copy);
+    if (ret == 0) free(action_name_copy);
+    return ret != 0;    
 }
 
 int state_machine_add_exit_action(state_machine_t * sm, const char* state_name, const char* exit_action_name)
 {
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
-    return hashset_insert(state->exit_actions, strdup(exit_action_name)) != 0;    
+    char * action_name_copy = strdup(exit_action_name);
+    hashset_element_t * ret = hashset_insert(state->exit_actions, action_name_copy);
+    if (ret == 0) free(action_name_copy);
+    return ret != 0;    
 }
 
 int state_machine_add_internal_action(state_machine_t * sm, const char* state_name, const char* event_name, const char* action_name)
