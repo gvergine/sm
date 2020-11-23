@@ -4,7 +4,8 @@
 /* declare here all the suites */
 extern Suite * state_machine_test_suite(void);
 extern Suite * list_test_suite(void);
-
+/* end */
+    
 int main(void)
 {
     int number_failed;
