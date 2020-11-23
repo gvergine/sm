@@ -76,5 +76,20 @@ void list_append(list_t* original, list_t* to_be_appended)
         void* data = list_get_data(iterator);
         list_insert(original, data);
     }
+}
 
+int list_count(list_t* l)
+{
+    int ret = 1;
+    
+    if (l->head == 0) return 0;
+
+    list_element_t* i = l->head;
+    while (i->next != 0)
+    {
+        i = i->next;
+        ret++;
+    }
+    
+    return ret;
 }

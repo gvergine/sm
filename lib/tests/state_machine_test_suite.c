@@ -1,4 +1,5 @@
 #include <check.h>
+#include <sm/state_machine_definition.h>
 #include <sm/state_machine.h>
 
 START_TEST(new_and_delete)

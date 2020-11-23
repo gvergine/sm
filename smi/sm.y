@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sm/state_machine.h>
+
+#include <sm/state_machine_definition.h>
+
 extern int yylex();
 extern int yyparse();
 FILE *yyin; 

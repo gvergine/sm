@@ -9,6 +9,24 @@ START_TEST(new_and_delete)
 }
 END_TEST
 
+START_TEST(adding_and_counting)
+{
+    int c;
+    list_t * l = list_new(0);
+    c = list_count(l);
+    ck_assert_int_eq(0,c);
+    list_insert(l, "a");    
+    c = list_count(l);
+    ck_assert_int_eq(1,c);
+    list_insert(l, "a");
+    c = list_count(l);
+    ck_assert_int_eq(2,c);
+    list_delete(l);
+}
+END_TEST
+
+
+
 Suite * list_test_suite(void)
 {
     Suite *s;
@@ -18,6 +36,7 @@ Suite * list_test_suite(void)
 
     /* add here all the tests */
     tcase_add_test(tc_core, new_and_delete);
+    tcase_add_test(tc_core, adding_and_counting);
     /* end */
     
     suite_add_tcase(s, tc_core);

@@ -12,5 +12,5 @@ list_element_t * list_insert(list_t*, void*);
 list_element_t * list_find_next_element(list_t*, list_element_t*);
 void* list_get_data(list_element_t*);
 void list_append(list_t*, list_t*);
-
+int list_count(list_t*);
 #endif

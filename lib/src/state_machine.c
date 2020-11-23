@@ -1,17 +1,6 @@
-#include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
-#include <sm/state_machine.h>
-#include "items.h"
-#include "hashset.h"
 
-struct state_machine
-{
-    hashset_t* states; // set of state_t
-    state_t * initial_state;
-    state_t * current_state;
-    pthread_mutex_t lock;
-};
+#include "state_machine_priv.h"
 
 state_machine_t * state_machine_new(del_func delete)
 {

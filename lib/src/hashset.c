@@ -62,7 +62,7 @@ void hashset_delete(hashset_t* set)
     return node;
 }*/
 
-int is_duplicate(hashset_t* set, const void* data)
+int hashset_contains(hashset_t* set, const void* data)
 {
     int hash = set->hash(data);
     hashset_element_t* i = set->table[hash];
@@ -77,7 +77,7 @@ int is_duplicate(hashset_t* set, const void* data)
 hashset_element_t* hashset_insert(hashset_t* set, const void* data)
 {
     hashset_element_t* node = 0;
-    if (is_duplicate(set, data)) return 0;
+    if (hashset_contains(set, data)) return 0;
     
     int h = set->hash(data);
 

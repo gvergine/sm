@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sm/state_machine.h>
+#include <sm/state_machine_definition.h>
+#include <sm/state_machine_validation.h>
 #include "cmdline.h"
 #include "sm.tab.h"
 
