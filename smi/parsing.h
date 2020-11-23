@@ -9,11 +9,11 @@ typedef struct transition {
     char* event;
 } transition_t;
 
-void add_transitions(state_machine_t* sm, list_t* transitions);
+void add_transitions(state_machine_t* sm);
 void free_transition(void* t);
 
 void yyerror(const char *s);
-
-void parse(FILE* f, state_machine_t * sm);
+void cleanup_memory();
+int parse(FILE* f, state_machine_t * sm);
 
 #endif

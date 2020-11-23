@@ -29,7 +29,6 @@ add_test (smi-tests ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.sh ${
 setup_target_for_coverage_lcov(NAME smi_coverage
                               EXECUTABLE ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.sh ${CMAKE_CURRENT_BINARY_DIR}/smi  ${CMAKE_CURRENT_SOURCE_DIR}/tests
                               BASE_DIRECTORY "${PROJECT_BINARY_DIR}/smi/"
-                              EXCLUDE "${PROJECT_SOURCE_DIR}/smi/main.c"
                               EXCLUDE "${PROJECT_BINARY_DIR}/smi/cmdline.c"
                               EXCLUDE "${PROJECT_BINARY_DIR}/smi/sm_lexer.c"
                               EXCLUDE "${PROJECT_BINARY_DIR}/smi/sm.tab.c"

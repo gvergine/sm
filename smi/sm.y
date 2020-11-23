@@ -10,17 +10,18 @@ extern int yylex();
 FILE *yyin; 
 
 extern state_machine_t * ___sm;
+extern char* ___current_event;
+extern char* ___current_state;
+extern list_t* ___transitions;
 
 #define TARGET_ENTRY 0
 #define TARGET_EXIT 1
 #define TARGET_EVENT 2
 
 int current_target;
-char* current_event;
-char* current_state;
 int is_initial_set = 0;
 
-list_t* transitions;
+
 %}
 
 %union {
@@ -38,13 +39,12 @@ list_t* transitions;
 %%
 root:
 	{
-	    transitions = list_new(free_transition);
+	    ___transitions = list_new(free_transition);
 	}
 	statedefinitions
 	{
-	    add_transitions(___sm, transitions);
-	    free(current_state);
-	    free(current_event);
+	    add_transitions(___sm);
+	    cleanup_memory();
 	}
 	;
 
@@ -62,8 +62,8 @@ initialstate:
 	{
 	    state_machine_add_state(___sm,$3); 
 	    state_machine_set_initial_state(___sm,$3);
-	    free(current_state);
-	    current_state=strdup($3);
+	    free(___current_state);
+	    ___current_state=strdup($3);
 	    free($3);
 	    if (is_initial_set)
 	    {
@@ -78,8 +78,8 @@ normalstate:
 	STATE ITEMNAME
 	{
 	    state_machine_add_state(___sm,$2);
-	    free(current_state);
-	    current_state=strdup($2);
+	    free(___current_state);
+	    ___current_state=strdup($2);
 	    free($2);
 	}
 	OPEN_BRAKET eventhandlerdefinitions CLOSE_BRAKET  
@@ -114,8 +114,8 @@ oneventdefinition:
 	ON ITEMNAME
 	{
 	    current_target = TARGET_EVENT;
-	    free(current_event);
-	    current_event = strdup($2);
+	    free(___current_event);
+	    ___current_event = strdup($2);
 	    free($2);
 	}
 	OPEN_BRAKET statements CLOSE_BRAKET
@@ -140,17 +140,17 @@ actionstatement:
 	{
 	    if (current_target == TARGET_ENTRY)
 	    {
-	        state_machine_add_enter_action(___sm, current_state, $2);
+	        state_machine_add_enter_action(___sm, ___current_state, $2);
 	    }
 	    else if (current_target == TARGET_EXIT)
 	    {
-	        state_machine_add_exit_action(___sm, current_state, $2);
+	        state_machine_add_exit_action(___sm, ___current_state, $2);
 	    }
 	    else
 	    {
 	        state_machine_add_internal_action(___sm,
-	                                          current_state,
-	                                          current_event,
+	                                          ___current_state,
+	                                          ___current_event,
 	                                          $2);
 	    }
 	    free($2);
@@ -161,11 +161,11 @@ transitionstatement:
 	GOTO ITEMNAME
 	{
 	    transition_t * transition = malloc(sizeof(transition_t));
-	    transition->from = strdup(current_state);
+	    transition->from = strdup(___current_state);
 	    transition->to = strdup($2);
-	    transition->event = strdup(current_event);
+	    transition->event = strdup(___current_event);
 	    free($2);
-	    list_insert(transitions,transition);
+	    list_insert(___transitions,transition);
 	}
 	;
 %%

@@ -60,7 +60,15 @@ int main(int argc, char* argv[])
 
     state_machine_t * sm;
     sm = state_machine_new(0);
-    parse(definition_file, sm);
+    
+    if(!parse(definition_file, sm))
+    {
+        state_machine_delete(sm);
+        fclose(definition_file);
+        fclose(input_file);
+        fclose(output_file);
+        return -1;
+    }
 
     fclose(definition_file);
     

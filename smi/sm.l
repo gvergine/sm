@@ -17,7 +17,7 @@ int line_num = 1;
 "{"		{return OPEN_BRAKET;}
 "}"		{return CLOSE_BRAKET;}
 [a-zA-Z0-9_]+	{
-			yylval.sval = strdup(yytext);
+			yylval.sval = yytext;
 			return ITEMNAME;
 		}
 \n              {++line_num;}

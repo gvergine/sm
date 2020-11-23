@@ -17,5 +17,4 @@ echo "Test wrong arguments errors"
 expect_fail_result_but_ok_mem -d non/existing.sm
 expect_fail_result_but_ok_mem -d $TESTS_DIR/toggle.sm -i non/existing.sm
 expect_fail_result_but_ok_mem -d $TESTS_DIR/toggle.sm -i $TESTS_DIR/toggle_events.sm -o non/existing.sm
-
-
+expect_fail_result_but_ok_mem -d $TESTS_DIR/syntax_error.sm -i $TESTS_DIR/toggle_events.sm -o /dev/null
