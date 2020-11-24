@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include "sm.tab.h"
 #include "parsing.h"
 

@@ -1,6 +1,6 @@
 #ifndef PARSING_H
 #define PARSING_H
-
+#include <stdio.h>
 #include <sm/state_machine_validation.h>
 
 typedef struct transition {

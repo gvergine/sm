@@ -26,5 +26,12 @@ expect_fail_result_but_ok_mem -d $TESTS_DIR/toggle.sm \
                               -i $TESTS_DIR/toggle_events.sm -o non/existing.sm
 expect_fail_result_but_ok_mem -d $TESTS_DIR/syntax_error.sm \
                               -i $TESTS_DIR/toggle_events.sm -o /dev/null
+
+echo "Validate-only bad case"
 expect_fail_result_but_ok_mem -d $TESTS_DIR/syntax_error.sm --validate-only
 expect_fail_result_but_ok_mem -d $TESTS_DIR/toggle_errors.sm --validate-only
+
+echo "Validate-only good case"
+($VALGRIND_SMI -d $TESTS_DIR/toggle.sm --validate-only) || exit 1
+
+
