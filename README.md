@@ -7,6 +7,86 @@ The sm project consist of
 - libsm - a pure C state machine library
 - smi - a state machine parser and runner for shell use-cases.
 
+## smi
+
+### Examples
+
+Consider a `toggle` state machine that turns off and on a lamp at regular time intervals (timeout event) and only if it is enabled by a toggle button (toggle event):
+<details>
+<summary>click to expand</summary>
+
+```
+initial state disabled {
+    on entry {
+        action stop_timer
+    }
+    on toggle {
+        goto enabled_light_on
+    }
+    on exit {
+        action start_timer
+    }
+}
+state enabled_light_on {
+    on entry {
+        action turn_light_on
+    }
+    on toggle {
+        action turn_light_off
+        goto disabled
+    }
+    on timeout {
+        goto enabled_light_off
+    }
+}
+state enabled_light_off {
+    on entry {
+        action turn_light_off
+    }
+    on toggle {
+        goto disabled
+    }
+    on timeout {
+        goto enabled_light_on
+    }
+}
+```
+</details>
+
+Here is what you can do with `smi`:
+
+Enumerate events:
+```
+$ smi -d toggle.sm -E
+timeout
+toggle
+```
+Enumerate actions:
+```
+$ smi -d toggle.sm -A
+stop_timer
+turn_light_on
+start_timer
+turn_light_off
+```
+Enumerate states:
+```
+$ smi -d toggle.sm -S
+disabled
+enabled_light_on
+enabled_light_off
+```
+Find errors:
+```
+$ smi -d toggle_with_errors.sm --validate-only
+ERROR: No state is defined as initial.
+ERROR: State `disabled` is not reachable.
+ERROR: State `enabled_light_on` is not reachable.
+ERROR: State `enabled_light_off` is not reachable.
+$ echo $?
+1
+```
+
 ## Build from source
 
 ```
