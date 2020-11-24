@@ -55,6 +55,11 @@ state enabled_light_off {
 
 Here is what you can do with `smi`:
 
+Run remotely and access the state machine via tcp (requires `dpipe` or similar):
+```
+dpipe smi -d toggle.sm = nc -lk 3000
+```
+
 Enumerate events:
 ```
 $ smi -d toggle.sm -E
