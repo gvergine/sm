@@ -23,6 +23,18 @@ START_TEST(add_new_and_existing_state)
 }
 END_TEST
 
+START_TEST(check_null_input)
+{
+    int ret;
+    state_machine_t * sm = state_machine_new(0);
+    ret = state_machine_add_state(sm,"TEST");
+    ck_assert_int_eq(1,ret);
+    ret = state_machine_add_state(sm,0);
+    ck_assert_int_eq(0,ret);
+    state_machine_delete(sm);
+}
+END_TEST
+
 START_TEST(set_initial_state_existing_and_not)
 {
     int ret;
@@ -198,6 +210,7 @@ Suite * state_machine_test_suite(void)
     /* add here all the tests */
     tcase_add_test(tc_core, new_and_delete);
     tcase_add_test(tc_core, add_new_and_existing_state);
+    tcase_add_test(tc_core, check_null_input);
     tcase_add_test(tc_core, set_initial_state_existing_and_not);
     tcase_add_test(tc_core, set_transition_tests);
     tcase_add_test(tc_core, add_actions);

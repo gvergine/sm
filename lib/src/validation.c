@@ -3,11 +3,13 @@
 
 void free_val_item(void* item)
 {
+    if (item == 0) return;
     free(item);
 }
 
 void find_reachable_states(hashset_t* reachable_states, state_t* initial)
 {
+    if (reachable_states == 0 || initial == 0) return;
 
     hashset_element_t * iterator = 0;
     while((iterator = hashset_find_next_element(initial->events,iterator)) != 0)
@@ -24,6 +26,7 @@ void find_reachable_states(hashset_t* reachable_states, state_t* initial)
 
 void add_issue(list_t* issues_list, sm_val_issue_e issue, char* item)
 {
+    if (issues_list == 0) return; // item can be null
     sm_val_item_t * val_item = malloc(sizeof(sm_val_item_t));
     val_item->issue = issue;
     val_item->item = item;   
@@ -32,13 +35,15 @@ void add_issue(list_t* issues_list, sm_val_issue_e issue, char* item)
 
 int state_machine_validate(state_machine_t * sm, list_t ** issues_list)
 {
+    if (sm == 0 || issues_list == 0) return -1;
+
     *issues_list = list_new(free_val_item);
     
     if (sm->initial_state == 0)
     {
         add_issue(*issues_list, SM_VAL_NOINITIALSTATE, 0);
     }
-    
+
     // if no initial state, no state is reachable
     if (sm->initial_state == 0)
     {

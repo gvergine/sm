@@ -14,6 +14,7 @@ state_machine_t * state_machine_new(del_func delete)
 
 void state_machine_delete(state_machine_t * sm)
 {
+    if (sm == 0) return;
     hashset_delete(sm->states);
     pthread_mutex_destroy(&sm->lock);
     free(sm);
@@ -21,6 +22,8 @@ void state_machine_delete(state_machine_t * sm)
 
 int state_machine_add_state(state_machine_t * sm, const char* state_name)
 {
+    if (sm == 0 || state_name == 0) return 0;
+
     state_t * new_state = malloc(sizeof(state_t));
     new_state->name = strdup(state_name);
     if (hashset_insert(sm->states,new_state))
@@ -61,6 +64,8 @@ int state_machine_set_transition(state_machine_t * sm,
                                  const char* to_state_name,
                                  const char* event_name)
 {
+    if (sm == 0 || from_state_name == 0 || to_state_name == 0
+                || event_name == 0) return 0;
     // first of all, check if the two state exist    
     state_t * from_state = (state_t *)find_state_with_name(sm,from_state_name);
     state_t * to_state = (state_t *)find_state_with_name(sm,to_state_name);
@@ -92,6 +97,7 @@ int state_machine_set_transition(state_machine_t * sm,
 int state_machine_add_enter_action(state_machine_t * sm, const char* state_name,
                                    const char* enter_action_name)
 {
+    if (sm == 0 || state_name == 0 || enter_action_name == 0) return 0;
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
     char * action_name_copy = strdup(enter_action_name);
@@ -104,6 +110,7 @@ int state_machine_add_enter_action(state_machine_t * sm, const char* state_name,
 int state_machine_add_exit_action(state_machine_t * sm, const char* state_name,
                                   const char* exit_action_name)
 {
+    if (sm == 0 || state_name == 0 || exit_action_name == 0) return 0;
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
     char * action_name_copy = strdup(exit_action_name);
@@ -118,6 +125,9 @@ int state_machine_add_internal_action(state_machine_t * sm,
                                       const char* event_name,
                                       const char* action_name)
 {
+    if (sm == 0 || state_name == 0 || event_name == 0
+                || action_name == 0) return 0;
+    
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
     
@@ -140,6 +150,7 @@ int state_machine_add_internal_action(state_machine_t * sm,
 int state_machine_set_initial_state(state_machine_t * sm,
                                     const char* state_name)
 {
+    if (sm == 0 || state_name == 0) return 0;
     state_t * state = (state_t *)find_state_with_name(sm,state_name);
     if (state == 0) return 0;
     sm->initial_state = state;
@@ -148,6 +159,7 @@ int state_machine_set_initial_state(state_machine_t * sm,
 
 list_t * set_to_list(hashset_t * set)
 {
+    if (set == 0) return 0;
     list_t * l = list_new(0);
     hashset_element_t * iterator = 0;
     while((iterator = hashset_find_next_element(set,iterator)) != 0)
@@ -161,6 +173,7 @@ list_t * set_to_list(hashset_t * set)
 list_t * state_machine_reset(state_machine_t * sm)
 {
     pthread_mutex_lock(&sm->lock);
+    if (sm == 0) return 0;
     sm->current_state = sm->initial_state;
     list_t * ret = set_to_list(sm->current_state->enter_actions);
     pthread_mutex_unlock(&sm->lock);
@@ -172,7 +185,7 @@ list_t * state_machine_dispatch_event(state_machine_t * sm,
                                       const char* event_name)
 {
     pthread_mutex_lock(&sm->lock);
-    
+    if (sm == 0 || event_name == 0) return 0;
     list_t * l = list_new(0);
     
     // first check if the event is at all handled in current state
