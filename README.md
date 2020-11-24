@@ -1,6 +1,6 @@
 # sm - state machines for the modern devop
 
-[Build](https://github.com/gvergine/sm/workflows/Build/badge.svg)
+![Build](https://github.com/gvergine/sm/workflows/Build/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/gvergine/sm/badge.svg?branch=master&kill_cache=1)](https://coveralls.io/github/gvergine/sm)
 
 The sm project consist of
