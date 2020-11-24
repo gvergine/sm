@@ -1,0 +1,32 @@
+initial state Retrying
+{
+    on entry {
+        action run
+    }
+
+    on running {
+        goto Running
+    }
+
+    on dead {
+        goto Waiting
+    }
+}
+
+state Running
+{
+    on dead {
+        goto Waiting
+    }
+}
+
+state Waiting
+{
+    on entry {
+        action timer
+    }
+
+    on timeout {
+        goto Retrying
+    }
+}

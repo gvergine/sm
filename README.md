@@ -53,11 +53,38 @@ state enabled_light_off {
 ```
 </details>
 
-Here is what you can do with `smi`:
+#### Here is what you can do with `smi`:
 
 Run remotely and access the state machine via tcp (requires `dpipe` or similar):
 ```
 dpipe smi -d toggle.sm = nc -lk 3000
+```
+
+Keep running a program (in this example `sol`) with a 5 seconds timeout delay between runs:
+```
+dpipe smi -d keep_running.sm =  ./keep_running.sh "sol"
+```
+
+The state machine can be exposed via mqtt:
+```
+mosquitto_sub -t events | smi -d toggle.sm | mosquitto_pub -t commands -l
+```
+
+and mqtt clients can be used to send events
+
+```
+$ mosquitto_pub -t events -m toggle
+$ mosquitto_pub -t events -m timeout
+```
+
+and receive commands
+
+```
+$ mosquitto_sub -t commands
+stop_timer
+start_timer
+turn_light_on
+turn_light_off
 ```
 
 Enumerate events:
