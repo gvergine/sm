@@ -6,6 +6,7 @@
 #include "cmdline.h"
 #include "parsing.h"
 #include "validate.h"
+#include "enumerate.h"
 
 void print_actions(list_t * l, FILE* out)
 {
@@ -40,7 +41,22 @@ int main(int argc, char* argv[])
         cmdline_parser_free(&args_info);
         return validate(definition_file) == 0;
     }
-    
+    else if (args_info.list_states_given)
+    {
+        cmdline_parser_free(&args_info);
+        return enumerate_states(definition_file) == 0;
+    }
+    else if (args_info.list_events_given)
+    {
+        cmdline_parser_free(&args_info);
+        return enumerate_events(definition_file) == 0;
+    }
+    else if (args_info.list_actions_given)
+    {
+        cmdline_parser_free(&args_info);
+        return enumerate_actions(definition_file) == 0;
+    }
+
     FILE *input_file = fopen(args_info.input_arg, "r");
     if (!input_file)
     {

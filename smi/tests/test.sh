@@ -34,4 +34,15 @@ expect_fail_result_but_ok_mem -d $TESTS_DIR/toggle_errors.sm --validate-only
 echo "Validate-only good case"
 ($VALGRIND_SMI -d $TESTS_DIR/toggle.sm --validate-only) || exit 1
 
+echo "Enumerate states, events and actions - good case"
+($VALGRIND_SMI -d $TESTS_DIR/toggle.sm -S) || exit 1
+($VALGRIND_SMI -d $TESTS_DIR/toggle.sm -E) || exit 1
+($VALGRIND_SMI -d $TESTS_DIR/toggle.sm -A) || exit 1
+
+echo "Enumerate states, events and actions - bad case"
+expect_fail_result_but_ok_mem -d $TESTS_DIR/syntax_error.sm -S
+expect_fail_result_but_ok_mem -d $TESTS_DIR/syntax_error.sm -E
+expect_fail_result_but_ok_mem -d $TESTS_DIR/syntax_error.sm -A
+
+
 

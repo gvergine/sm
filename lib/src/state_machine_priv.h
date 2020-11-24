@@ -19,5 +19,6 @@ struct state_machine
 };
 
 state_t* find_state_with_name(state_machine_t * sm, const char* name);
+list_t * set_to_list(hashset_t * set);
 
 #endif

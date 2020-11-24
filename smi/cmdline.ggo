@@ -17,3 +17,13 @@ text "Output file for actions. Defaults to /dev/stdout;"
 
 option  "validate-only" w "Just validate the state machine"    optional 
 text "Just validate the state machine;"
+
+option  "list-states" S "Just list the states"    optional 
+text "Just list the states of the state machine"
+
+option  "list-events" E "Just list the events"    optional 
+text "Just list the events that are handled by the state machine"
+
+option  "list-actions" A "Just list the actions"    optional 
+text "Just list the actions that are triggered by the state machine"
+
