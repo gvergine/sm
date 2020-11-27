@@ -1,0 +1,4 @@
+const char* state_machine_library_version()
+{
+    return "@CMAKE_PROJECT_VERSION@";
+}

@@ -8,5 +8,6 @@ typedef struct state_machine state_machine_t;
 list_t * state_machine_reset(state_machine_t * sm);
 list_t * state_machine_dispatch_event(state_machine_t * sm,
                                       const char* event_name);
+const char* state_machine_library_version();
 
 #endif

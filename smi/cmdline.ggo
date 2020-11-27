@@ -2,7 +2,7 @@ package "smi"
 version "1.0.0"
 
 option  "definition" d "State machine definition file"
-        string required typestr="filename"
+        string optional typestr="filename"
 text "State machine definition."
 
 option  "input" i "State machine input file"
@@ -14,6 +14,10 @@ option  "output" o "State machine output file"
         string optional typestr="filename"
 default="/dev/stdout"
 text "Output file for actions. Defaults to /dev/stdout;"
+
+option  "version" v "Just print the version"    optional 
+text "Just validate the version of the library and executable;"
+
 
 option  "validate-only" w "Just validate the state machine"    optional 
 text "Just validate the state machine;"

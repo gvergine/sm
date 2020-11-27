@@ -20,7 +20,7 @@ macro (add_gengetopt_files _basename)
 
   add_custom_command (
     OUTPUT ${_ggo_c} ${_ggo_h}
-    COMMAND gengetopt ${_ggo_extra_input} -i ${_ggo_g} --output-dir ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND gengetopt ${_ggo_extra_input} --no-version -i ${_ggo_g} --output-dir ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS ${_ggo_g}
     # BYPRODUCTS
     COMMENT "Generating getopt parser code (cmdline.{h,c}) ..."

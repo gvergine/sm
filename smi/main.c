@@ -24,7 +24,14 @@ int main(int argc, char* argv[])
 {
     struct gengetopt_args_info args_info;
     if (cmdline_parser (argc, argv, &args_info) != 0) return 1;
-    
+
+    if (args_info.version_given)
+    {
+        printf("%s\n",state_machine_library_version());
+        cmdline_parser_free(&args_info);
+        return 0;
+    }
+
     FILE *definition_file = fopen(args_info.definition_arg, "r");
     
 
