@@ -14,5 +14,6 @@ setup_target_for_coverage_lcov(NAME sm_coverage
                               BASE_DIRECTORY "${PROJECT_BINARY_DIR}/lib/src/"
                               LCOV_ARGS "--rc" "lcov_branch_coverage=1"
                               GENHTML_ARGS "--branch-coverage"
+                              EXCLUDE "${PROJECT_BINARY_DIR}/lib/src/version.c"
                               )
 

@@ -6,7 +6,7 @@ configure_file(version.c.in version.c)
 
 file(GLOB sources *.c )
 list(APPEND sources ${CMAKE_CURRENT_BINARY_DIR}/version.c)
-message(${sources})
+
 
 add_library(sm-shared SHARED ${sources})
 add_library(sm-static STATIC ${sources})
